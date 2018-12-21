@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  **/
 public class WalleNotify {
     private static final Logger logger = LoggerFactory.getLogger(WalleNotify.class);
-    private static final String NOTIFY_SERVER = "http://es2:9093/api/v1/alerts";
+    private static final String NOTIFY_SERVER = "http://localhost:9093/api/v1/alerts";
 
     /**
      * 发送消息
@@ -21,8 +21,8 @@ public class WalleNotify {
      * @param info
      * @return
      */
-    public boolean sendMessage(String altername,String info){
-        String message = constructMessage(altername,info);
+    public boolean sendMessage(String altername,String info,String service){
+        String message = constructMessage(altername,info,service);
         HttpUtil httpUtil = new HttpUtil(this);
         httpUtil.post(NOTIFY_SERVER,message);
         return true;
@@ -34,20 +34,24 @@ public class WalleNotify {
      * @param info
      * @return
      */
-    public String constructMessage(String altername,String info){
+    public String constructMessage(String altername,String info,String service){
 
         JSONObject labelsObject=new JSONObject();
         labelsObject.put("altername",altername);
+        labelsObject.put("service",service);
+
 
         JSONObject annotationsObject=new JSONObject();
         annotationsObject.put("info",info);
 
-        JSONObject labels=new JSONObject();
-        labels.put("labels",labelsObject);
-        labels.put("annotations",annotationsObject);
+
+        JSONObject alerts=new JSONObject();
+        alerts.put("labels",labelsObject);
+        alerts.put("annotations",annotationsObject);
+
 
         JSONArray jsonArray=new JSONArray();
-        jsonArray.put(labels);
+        jsonArray.put(alerts);
 
         return jsonArray.toString();
     }

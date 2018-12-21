@@ -14,7 +14,7 @@ public class FilebeatAlter {
     private static final Logger logger = LoggerFactory.getLogger(FilebeatAlter.class);
     private static String HOSTNAME = null;
     private static String SSH_BASE_CMD = null;
-    private static final String START_FILEBEAT = "nohup filebeat -e -c /etc/filebeat/filebeat.yml -d 'publish' >/data0/log/filebeat/filebeat.log 2>&1 &";
+    private static final String START_FILEBEAT = "service filebeat start";
     private static  String  START_FILEBEAT_CMD = null;
 
     public FilebeatAlter(String hostname){

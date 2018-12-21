@@ -5,7 +5,6 @@ import com.dashu.log.alter.IndexAlter;
 import com.dashu.log.alter.multiThread.LogstashThread;
 import com.dashu.log.client.dao.LogstashConfRepository;
 import com.dashu.log.entity.FilebeatConf;
-import com.dashu.log.entity.LogstashConf;
 import com.dashu.log.monitor.dao.FileBeatConfRepository;
 import com.dashu.log.alter.multiThread.FilebeatThread;
 
@@ -36,31 +35,31 @@ public class Walle {
      */
     @Scheduled(cron = "0 */5 * * * *")
     public void logstashAlter(){
-        List<String> hostanmelist = logstashConfRepository.getAllHostanme();
-        for (String hostname : hostanmelist){
-            LogstashThread logstashThread = new LogstashThread(hostname);
-            logstashThread.start();
-        }
+//        List<String> hostanmelist = logstashConfRepository.getAllHostanme();
+//        for (String hostname : hostanmelist){
+//            LogstashThread logstashThread = new LogstashThread(hostname);
+//            logstashThread.start();
+//        }
     }
 
     /**
      * es index
      */
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "* */10 * * * *")
     public void indexAlter(){
-        indexAlter.alter();
+//        indexAlter.alter();
     }
 
     /**
      * filebeat
      */
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void filebeatAlter(){
-        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
-        for (FilebeatConf filebeatConf : filebeatConfList){
-            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
-            filebeatThread.start();
-        }
+//        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
+//        for (FilebeatConf filebeatConf : filebeatConfList){
+//            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
+//            filebeatThread.start();
+//        }
     }
 
     /**
@@ -68,8 +67,8 @@ public class Walle {
      */
     @Scheduled(cron = "0 */5 * * * *")
     public void esClusterAlter(){
-        ESClusterAlter esClusterAlter = new ESClusterAlter();
-        esClusterAlter.alter();
+//        ESClusterAlter esClusterAlter = new ESClusterAlter();
+//        esClusterAlter.alter();
     }
 
 

@@ -2,25 +2,19 @@ package com.dashu.log.alterRules.multiThread;
 
 import com.dashu.log.alter.WalleNotify;
 import com.dashu.log.alterRules.ESIndexRule;
-import com.dashu.log.classification.dao.ErrorLogTypeIndex;
-import com.dashu.log.classification.dao.ErrorLogTypeRepository;
+import com.dashu.log.dao.ErrorLogTypeIndex;
+import com.dashu.log.dao.ErrorLogTypeRepository;
 import com.dashu.log.entity.ErrorLogType;
 import com.dashu.log.filter.DocFilter;
-import com.dashu.log.util.DateUtils;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Float.NaN;
 
 /**
  * @Description 日志分析线程
@@ -73,7 +67,7 @@ public class IsErrorMultiThread extends Thread {
                 ErrorLogType errorLogType = new ErrorLogType(topic,message,loglevel,hostname,0,sdf.format(new Date()),sdf.format(new Date()));
                 errorLogTypeIndex.insertToIndex(errorLogType);
                 message = message.replace("\n","\\n");
-                notify.sendMessage(topic,message);
+                notify.sendMessage(topic,message,topic);
 
             }else {
                 SearchHit hit = hitsObject.getHits()[0];
@@ -95,7 +89,7 @@ public class IsErrorMultiThread extends Thread {
                         Date date = new Date();
                         errorLogTypeIndex.updateSingleField(docId,"LatestUpdateTime",sdf.format(date));
                         message = "docId:"+docId+"\\n"+message.replace("\n","\\n");
-                        notify.sendMessage(topic,message);
+                        notify.sendMessage(topic,message,topic);
                     }
                 } catch ( Exception e) {
                     e.printStackTrace();

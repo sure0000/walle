@@ -51,7 +51,7 @@ public class IsStopIndexMultiThread extends Thread {
                     long diff = index_total - Long.valueOf(this.INDEX_CONF.getIndexTotal());      //判断index中的文档数是否增加
                     if (diff <= 0){
                         WalleNotify notify = new WalleNotify();
-                        notify.sendMessage("stop indexing",this.INDEX_NAME+" is stop indexing"+" original num is:"+this.INDEX_CONF.getIndexTotal()+" now is:"+index_total);
+                        notify.sendMessage("stop indexing",this.INDEX_NAME+" is stop indexing"+" original num is:"+this.INDEX_CONF.getIndexTotal()+" now is:"+index_total,"stop indexing");
                     }else {
                         indexConfRepository.updateIndexTotalNum(String.valueOf(index_total),this.INDEX_NAME);   //更新文档数
                     }
@@ -62,7 +62,7 @@ public class IsStopIndexMultiThread extends Thread {
 
                 if (diff <= 0){
                     WalleNotify notify = new WalleNotify();
-                    notify.sendMessage("stop indexing",this.INDEX_NAME+" is stop indexing"+" index_total is:"+index_total);
+                    notify.sendMessage("stop indexing",this.INDEX_NAME+" is stop indexing"+" index_total is:"+index_total,"stop indexing");
                 }else {
                     indexConfRepository.updateIndexTotalNum(String.valueOf(index_total),this.INDEX_NAME);   //更新文档数
                 }

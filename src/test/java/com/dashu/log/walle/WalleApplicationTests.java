@@ -15,7 +15,7 @@ public class WalleApplicationTests {
     @Test
     public void contextLoads() {
         WalleNotify notify = new WalleNotify();
-        notify.sendMessage("walle","walle is start");
+        notify.sendMessage("walle","walle is start","walle");
     }
 
 }

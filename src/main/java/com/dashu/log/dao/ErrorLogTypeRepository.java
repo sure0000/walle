@@ -1,4 +1,4 @@
-package com.dashu.log.classification.dao;
+package com.dashu.log.dao;
 
 import com.dashu.log.entity.ErrorLogTypeBak;
 import org.springframework.data.jpa.repository.JpaRepository;

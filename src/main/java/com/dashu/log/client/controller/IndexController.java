@@ -1,6 +1,7 @@
-package com.dashu.log.client;
+package com.dashu.log.client.controller;
 
 
+import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.dao.ErrorTypeIdRepository;
 import com.dashu.log.client.dao.IndexConfRepository;
 import com.dashu.log.entity.IndexConf;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Date 2018/11/27 下午3:18
  **/
 @RestController
-public class IndexClient {
+public class IndexController {
 
     @Resource
     private IndexConfRepository indexConfRepository;
@@ -30,49 +31,46 @@ public class IndexClient {
     private ErrorTypeIdRepository errorTypeIdRepository;
 
 
-    /**
-     * get All Index Conf
-     * @return
-     */
+    /** 删除单条index conf **/
+    @RequestMapping(value = "/index/deleteSingleIndexConf",method = RequestMethod.GET)
+    public boolean deleteSingleIndexConf(@RequestParam(value = "id")Integer id){
+        if (id == null){
+            return false;
+        }
+        try {
+            indexConfRepository.deleteSingleIndexConfById(id);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+
+    /** get All Index Conf **/
     @RequestMapping(value = "/index/getAllIndexConf",method = RequestMethod.GET)
-    public String getAllIndexConf(){
+    public List<IndexConf> getAllIndexConf(){
         try {
             List<IndexConf> indexConfList = indexConfRepository.getAllIndexConf();
-            JSONArray datas = new JSONArray();
-            for (IndexConf indexConf : indexConfList){
-                JSONObject data = new JSONObject();
-                data.put("index",indexConf.getIndex());
-                data.put("filed",indexConf.getFiled());
-                data.put("keywords",indexConf.getKeywords());
-                datas.put(data);
-            }
-            return clientUtil.successMessage(datas.toString());
+            return indexConfList;
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return null;
         }
 
     }
 
-    /**
-     * add Index Conf
-     * @param index
-     * @param filed
-     * @param keywords
-     * @return
-     */
+    /** add Index Conf **/
     @RequestMapping(value = "/index/addIndexConf",method = RequestMethod.GET)
-    public String addIndexConf(@RequestParam(value = "index")String index,
+    public boolean addIndexConf(@RequestParam(value = "index")String index,
                                @RequestParam(value = "filed")String filed,
                                @RequestParam(value = "keywords")String keywords){
-        if (index == null || filed == null || keywords == null){
-            return clientUtil.nullMessage();
+        if (index == "" || filed == "" || keywords == ""){
+            return false;
         }
         try{
             indexConfRepository.addIndexConf(index,filed,keywords);
-            String data = index+" "+filed+" "+keywords;
-            return clientUtil.successMessage(data);
+            return true;
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return false;
         }
 
 

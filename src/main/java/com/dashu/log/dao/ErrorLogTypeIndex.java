@@ -1,10 +1,8 @@
-package com.dashu.log.classification.dao;
+package com.dashu.log.dao;
 
 import com.dashu.log.entity.ErrorLogType;
 import com.dashu.log.monitor.ESUtil;
 
-import com.dashu.log.util.HttpUtil;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -17,7 +15,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

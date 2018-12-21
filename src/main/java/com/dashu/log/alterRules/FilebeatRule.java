@@ -26,15 +26,15 @@ public class FilebeatRule {
         boolean isAlive = filebeatDetection.isAlive();
         if (!isAlive){
             WalleNotify notify = new WalleNotify();
-            notify.sendMessage("filebeat-down","the filebeat of "+hostname+" is down!");
+            notify.sendMessage("filebeat-down","the filebeat of "+hostname+" is down!","filebeat-down");
             logger.warn("the filebeat of "+hostname+" is down!");
             RunCmdLine runCmdLine = new RunCmdLine(this);
             List ret = runCmdLine.callShell(cmd);
             if (ret == null){
-                notify.sendMessage("filebeat-start-fail","we try to up the filebeat of "+hostname+",but fail please check it!");
+                notify.sendMessage("filebeat-start-fail","we try to up the filebeat of "+hostname+",but fail please check it!","filebeat-start-fail");
                 logger.warn("we try to up the filebeat of "+hostname+",but fail please check it!");
             }else{
-                notify.sendMessage("filebeat-start","the filebeat of "+hostname+" is up!");
+                notify.sendMessage("filebeat-start","the filebeat of "+hostname+" is up!","filebeat-start");
                 logger.warn("the filebeat of "+hostname+" is up!");
             }
         }else{

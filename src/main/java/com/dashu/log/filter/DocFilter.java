@@ -1,8 +1,8 @@
 package com.dashu.log.filter;
 
 import com.dashu.log.alter.dao.AlterHistoryRepository;
-import com.dashu.log.classification.dao.ErrorLogTypeRepository;
-import com.dashu.log.classification.dao.FilterErrorTypeRepository;
+import com.dashu.log.dao.ErrorLogTypeRepository;
+import com.dashu.log.dao.FilterErrorTypeRepository;
 
 import com.dashu.log.entity.ErrorLogType;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Description errorLog过滤

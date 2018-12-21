@@ -15,6 +15,12 @@ import java.util.List;
  **/
 public interface IndexConfRepository extends JpaRepository<IndexConf,Long> {
 
+    /** 删除单条index conf **/
+    @Transactional
+    @Modifying
+    @Query(value = "delete from index_conf where id = ?1",nativeQuery = true)
+    void deleteSingleIndexConfById(Integer id);
+
     @Transactional
     @Modifying
     @Query(value = "update index_conf as t set t.scan_time = ?1 where t.index = ?2",nativeQuery = true)

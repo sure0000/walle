@@ -27,15 +27,15 @@ public class LogstashRule {
         if (!isAlive){
             logger.warn("the logstash of "+hostname+" is not alive !");
             WalleNotify notify = new WalleNotify();
-            notify.sendMessage("logstash down","the logstash of "+hostname+" is not alive !");
+            notify.sendMessage("logstash down","the logstash of "+hostname+" is not alive !","logstash down");
             RunCmdLine runCmdLine = new RunCmdLine(this);
             List ret = runCmdLine.callShell(cmd);
             if (ret == null){
                 logger.warn("the logstash of "+hostname+" is restart fail,please check it !");
-                notify.sendMessage("logstash start fail","the logstash of "+hostname+" is restart fail,please check it !");
+                notify.sendMessage("logstash start fail","the logstash of "+hostname+" is restart fail,please check it !","logstash start fail");
             }else{
                 logger.info("the logstash of "+hostname+" is up !");
-                notify.sendMessage("logstash start up","the logstash of "+hostname+" is up !");
+                notify.sendMessage("logstash start up","the logstash of "+hostname+" is up !","logstash start up");
             }
         }else{
             logger.info("the logstash of "+hostname+" is health !");
