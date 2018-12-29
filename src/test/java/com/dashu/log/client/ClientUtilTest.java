@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Date 2018/11/27 下午5:01
  **/
 class ClientUtilTest {
+
 
     @BeforeEach
     void setUp() {
@@ -23,9 +26,6 @@ class ClientUtilTest {
 
     @Test
     void successMessage() {
-        ClientUtil clientUtil = new ClientUtil();
-        String meg = clientUtil.successMessage("syx");
-        System.out.println(meg);
     }
 
     @Test

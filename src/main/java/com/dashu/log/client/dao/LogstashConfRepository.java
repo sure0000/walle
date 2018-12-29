@@ -29,6 +29,6 @@ public interface LogstashConfRepository extends JpaRepository<LogstashConf,Long>
      */
     @Transactional
     @Modifying
-    @Query(value = "insert into logstash_conf('hostname') values (?1)",nativeQuery = true)
+    @Query(value = "insert into logstash_conf(hostname) values (?1)",nativeQuery = true)
     void addHostname(String hostname);
 }

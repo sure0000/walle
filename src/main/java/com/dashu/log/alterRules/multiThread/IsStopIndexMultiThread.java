@@ -26,7 +26,7 @@ public class IsStopIndexMultiThread extends Thread {
 
     public IsStopIndexMultiThread (IndexConf indexConf,IndexConfRepository indexConfRepository){
         this.INDEX_CONF = indexConf;
-        this.INDEX_NAME = indexConf.getIndex();
+        this.INDEX_NAME = indexConf.getIndexName();
         this.indexConfRepository = indexConfRepository;
     }
 

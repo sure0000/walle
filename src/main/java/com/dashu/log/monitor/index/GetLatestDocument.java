@@ -33,7 +33,7 @@ public class GetLatestDocument {
      */
     public List<Map> getLatestDoc(IndexConf indexConf){
         ESQuery esQuery = new ESQuery();
-        String index = indexConf.getIndex();
+        String index = indexConf.getIndexName();
         String field = indexConf.getFiled();
         String keyword = indexConf.getKeywords();
         if (field == null){

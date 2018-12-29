@@ -2,10 +2,7 @@ package com.dashu.log.client.controller;
 
 import com.dashu.log.dao.SelfAlterHistoryRepository;
 import com.dashu.log.entity.SelfAlterHistory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
  * @Date 2018/12/17 上午10:30
  **/
 @RestController
+@CrossOrigin
 public class AlterController {
     @Resource
     private SelfAlterHistoryRepository selfAlterHistoryRepository;

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  **/
 public class WalleNotify {
     private static final Logger logger = LoggerFactory.getLogger(WalleNotify.class);
-    private static final String NOTIFY_SERVER = "http://localhost:9093/api/v1/alerts";
+    private static final String NOTIFY_SERVER = "http://es2:9093/api/v1/alerts";
 
     /**
      * 发送消息

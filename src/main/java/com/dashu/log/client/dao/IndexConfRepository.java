@@ -41,7 +41,7 @@ public interface IndexConfRepository extends JpaRepository<IndexConf,Long> {
      */
     @Transactional
     @Modifying
-    @Query(value = "select t.id,t.index,t.filed,t.keywords,t.index_total,t.scan_interval,t.scan_time from index_conf as t",nativeQuery = true)
+    @Query(value = "select t.id,t.index_name,t.filed,t.keywords,t.index_total,t.scan_interval,t.scan_time from index_conf as t",nativeQuery = true)
     List<IndexConf> getAllIndexConf();
     /**
      * add index conf
@@ -50,7 +50,7 @@ public interface IndexConfRepository extends JpaRepository<IndexConf,Long> {
      * @param keywords
      */
     @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query(value = "insert into index_conf('index','filed','keywords') values (?1,?2,?3)",nativeQuery = true)
+    @Modifying
+    @Query(value = "insert into index_conf(index_name,filed,keywords) values (?1,?2,?3)",nativeQuery = true)
     void addIndexConf(String index,String filed,String keywords);
 }

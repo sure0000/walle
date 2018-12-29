@@ -5,12 +5,8 @@ import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.dao.ErrorTypeIdRepository;
 import com.dashu.log.client.dao.IndexConfRepository;
 import com.dashu.log.entity.IndexConf;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +17,7 @@ import java.util.List;
  * @Date 2018/11/27 下午3:18
  **/
 @RestController
+@CrossOrigin
 public class IndexController {
 
     @Resource
@@ -82,15 +79,15 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/index/addForbidId",method = RequestMethod.GET)
-    public String addForbidId(@RequestParam(value = "errorTypeId")Integer errorTypeId){
+    public JSONObject addForbidId(@RequestParam(value = "errorTypeId")Integer errorTypeId){
         if (errorTypeId == null){
-            return clientUtil.nullMessage();
+            return clientUtil.responseMessage(0,"errorTypeId is null",null);
         }
         try{
             errorTypeIdRepository.addFilterErrorType(errorTypeId);
-            return clientUtil.successMessage(errorTypeId.toString());
+            return clientUtil.responseMessage(1,"",errorTypeId.toString());
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(-1,e.getMessage(),null);
         }
 
     }
@@ -100,12 +97,12 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/index/getAllForbidId",method = RequestMethod.GET)
-    public String getAllForbidId(){
+    public JSONObject getAllForbidId(){
         try{
             List<Integer> errorLogTypeList = errorTypeIdRepository.getAllFilterErrorId();
-            return clientUtil.successMessage(errorLogTypeList.toString());
+            return clientUtil.responseMessage(1,"",errorLogTypeList.toString());
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(-1,e.getMessage(),null);
         }
     }
 

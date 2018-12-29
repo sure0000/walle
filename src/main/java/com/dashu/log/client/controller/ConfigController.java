@@ -5,10 +5,7 @@ import com.dashu.log.dao.MessageAlterConfRepository;
 import com.dashu.log.dao.MetricConfRepository;
 import com.dashu.log.entity.MessageAlterConf;
 import com.dashu.log.entity.MetricConf;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.List;
  * @Date 2018/12/19 上午10:06
  **/
 @RestController
+@CrossOrigin
 public class ConfigController {
     @Resource
     private MessageAlterConfRepository messageAlterConfRepository;
