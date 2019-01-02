@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.text.MessageFormat;
+
 
 /**
  * @Description
@@ -26,12 +26,12 @@ public class ClientUtil {
      * @param data 真实数据
      * @return
      */
-    public JSONObject responseMessage(Integer ret,String errorMsg,Object data){
+    public String responseMessage(Integer ret,String errorMsg,Object data){
         JSONObject returnObject = new JSONObject();
         returnObject.put("ret",ret);
         returnObject.put("errorMsg",errorMsg);
-        returnObject.put("datas","data");
-        return returnObject;
+        returnObject.put("datas",data);
+        return returnObject.toString();
     }
 
     /** 获取cookie **/
@@ -60,7 +60,7 @@ public class ClientUtil {
     }
 
     /** md5加密 **/
-    public static String getMD5Str(String str) throws Exception {
+    public String getMD5Str(String str) throws Exception {
         try {
             // 生成一个MD5加密计算摘要
             MessageDigest md = MessageDigest.getInstance("MD5");

@@ -22,18 +22,34 @@ public class UserController {
     @Resource
     private ClientUtil clientUtil;
 
+    /**登出**/
+    @RequestMapping(value = "/user/logout",method = RequestMethod.GET)
+    public String logout(@RequestParam(value = "sessionKey")String sessionKey,HttpSession session){
+        try {
+            session.removeAttribute(sessionKey);
+            return clientUtil.responseMessage(200,"",true);
+        }catch (Exception e){
+            return clientUtil.responseMessage(503,e.getMessage(),false);
+        }
+    }
+
     /** 登陆 **/
     @RequestMapping(value = "/user/login",method = RequestMethod.GET)
-    public User login(@RequestParam(value = "username")String username,
-                      @RequestParam(value = "password")String password,
-                      HttpServletResponse response,
-                      HttpSession session) throws Exception {
+    public String login(@RequestParam(value = "username")String username,
+                            @RequestParam(value = "password")String password,
+                            HttpServletResponse response,
+                            HttpSession session) throws Exception {
         User user = userService.checkLogin(username,password);
         if (user!=null){
-            session.setAttribute(username,user);
-            String id =session.getId();
-            clientUtil.writeCookie(response,"token",username);
+            int random = 0 + (int)(Math.random() * 10000);
+            String sessionKey = clientUtil.getMD5Str(username + String.valueOf(random));
+            session.setAttribute(sessionKey,user);
+            clientUtil.writeCookie(response,"token",sessionKey);
+            return clientUtil.responseMessage(200,"",user);
+        }else{
+            return clientUtil.responseMessage(201,"user is not exist or password is wrong!",null);
         }
-        return user;
+
     }
+
 }

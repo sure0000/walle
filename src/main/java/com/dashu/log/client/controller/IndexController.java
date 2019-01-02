@@ -30,44 +30,44 @@ public class IndexController {
 
     /** 删除单条index conf **/
     @RequestMapping(value = "/index/deleteSingleIndexConf",method = RequestMethod.GET)
-    public boolean deleteSingleIndexConf(@RequestParam(value = "id")Integer id){
+    public String deleteSingleIndexConf(@RequestParam(value = "id")Integer id){
         if (id == null){
-            return false;
+            return clientUtil.responseMessage(201,"id is null",null);
         }
         try {
             indexConfRepository.deleteSingleIndexConfById(id);
-            return true;
+            return clientUtil.responseMessage(200,"",true);
         } catch (Exception e){
-            return false;
+            return clientUtil.responseMessage(502,e.getMessage(),null);
         }
     }
 
 
     /** get All Index Conf **/
     @RequestMapping(value = "/index/getAllIndexConf",method = RequestMethod.GET)
-    public List<IndexConf> getAllIndexConf(){
+    public String getAllIndexConf(){
         try {
             List<IndexConf> indexConfList = indexConfRepository.getAllIndexConf();
-            return indexConfList;
+            return clientUtil.responseMessage(200,"",indexConfList);
         }catch (Exception e){
-            return null;
+            return clientUtil.responseMessage(502,e.getMessage(),null);
         }
 
     }
 
     /** add Index Conf **/
     @RequestMapping(value = "/index/addIndexConf",method = RequestMethod.GET)
-    public boolean addIndexConf(@RequestParam(value = "index")String index,
+    public String addIndexConf(@RequestParam(value = "index")String index,
                                @RequestParam(value = "filed")String filed,
                                @RequestParam(value = "keywords")String keywords){
         if (index == "" || filed == "" || keywords == ""){
-            return false;
+            return clientUtil.responseMessage(201,"lack of parameter",null);
         }
         try{
             indexConfRepository.addIndexConf(index,filed,keywords);
-            return true;
+            return clientUtil.responseMessage(200,"",true);
         }catch (Exception e){
-            return false;
+            return clientUtil.responseMessage(502,e.getMessage(),null);
         }
 
 
@@ -79,15 +79,15 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/index/addForbidId",method = RequestMethod.GET)
-    public JSONObject addForbidId(@RequestParam(value = "errorTypeId")Integer errorTypeId){
+    public String addForbidId(@RequestParam(value = "errorTypeId")Integer errorTypeId){
         if (errorTypeId == null){
-            return clientUtil.responseMessage(0,"errorTypeId is null",null);
+            return clientUtil.responseMessage(201,"errorTypeId is null",null);
         }
         try{
             errorTypeIdRepository.addFilterErrorType(errorTypeId);
-            return clientUtil.responseMessage(1,"",errorTypeId.toString());
+            return clientUtil.responseMessage(200,"",true);
         }catch (Exception e){
-            return clientUtil.responseMessage(-1,e.getMessage(),null);
+            return clientUtil.responseMessage(502,e.getMessage(),null);
         }
 
     }
@@ -97,12 +97,12 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/index/getAllForbidId",method = RequestMethod.GET)
-    public JSONObject getAllForbidId(){
+    public String getAllForbidId(){
         try{
             List<Integer> errorLogTypeList = errorTypeIdRepository.getAllFilterErrorId();
-            return clientUtil.responseMessage(1,"",errorLogTypeList.toString());
+            return clientUtil.responseMessage(200,"",errorLogTypeList);
         }catch (Exception e){
-            return clientUtil.responseMessage(-1,e.getMessage(),null);
+            return clientUtil.responseMessage(502,e.getMessage(),null);
         }
     }
 

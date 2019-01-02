@@ -1,5 +1,6 @@
 package com.dashu.log.client.controller;
 
+import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.service.ConfigService;
 import com.dashu.log.dao.MessageAlterConfRepository;
 import com.dashu.log.dao.MetricConfRepository;
@@ -24,58 +25,91 @@ public class ConfigController {
     private ConfigService configService;
     @Resource
     private MetricConfRepository metricConfRepository;
+    @Resource
+    private ClientUtil clientUtil;
 
 
     /** 获取所有message conf **/
     @RequestMapping(value = "/config/getAllMessageConf",method = RequestMethod.GET)
-    public List<MessageAlterConf> getAllMessageConf(){
-        return messageAlterConfRepository.getAllConf();
+    public String getAllMessageConf(){
+        try {
+            List<MessageAlterConf> list = messageAlterConfRepository.getAllConf();
+            return clientUtil.responseMessage(200,"",list);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
+
     }
 
 
     /** 添加消息告警配置 **/
     @RequestMapping(value = "/config/addSingleMessageConf",method = RequestMethod.GET)
-    public boolean addSingleMessageConf(@RequestParam(value = "messageAlterName")String messageAlterName,
+    public String addSingleMessageConf(@RequestParam(value = "messageAlterName")String messageAlterName,
                                         @RequestParam(value = "alterWay")String AlterWay,
                                         @RequestParam(value = "chargeMan")String chargeMan,
                                         @RequestParam(value = "isShow")Integer isShow,
                                         @RequestParam(value = "alterLevel")String alterLevel,
                                         @RequestParam(value = "frequency")Integer frequency){
-        return configService.addSingleMessageConf(messageAlterName, AlterWay, chargeMan, isShow, alterLevel, frequency);
+        try {
+            configService.addSingleMessageConf(messageAlterName, AlterWay, chargeMan, isShow, alterLevel, frequency);
+            return clientUtil.responseMessage(200,"",true);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
     }
 
 
     /** 删除单条消息告警配置 **/
     @RequestMapping(value = "/config/deleteSingleMessageConf",method = RequestMethod.GET)
-    public boolean deleteSingleMessageConf(@RequestParam(value = "id")Integer id){
-        return configService.deleteSingleMessageConf(id);
+    public String deleteSingleMessageConf(@RequestParam(value = "id")Integer id){
+        try {
+            configService.deleteSingleMessageConf(id);
+            return clientUtil.responseMessage(200,"",true);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
     }
 
 
     /** 获取所有metric conf **/
     @RequestMapping(value = "/config/getAllMetricConf",method = RequestMethod.GET)
-    public List<MetricConf> getAllMetricConf(){
-        return metricConfRepository.getAllMetricConf();
+    public String getAllMetricConf(){
+        try {
+            List<MetricConf> list = metricConfRepository.getAllMetricConf();
+            return clientUtil.responseMessage(200,"",list);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
     }
 
 
     /** 添加metric消息告警 **/
     @RequestMapping(value = "/config/addSingleMetricConf",method = RequestMethod.GET)
-    public boolean addSingleMetricConf(@RequestParam(value = "metricName")String metricName,
+    public String addSingleMetricConf(@RequestParam(value = "metricName")String metricName,
                                        @RequestParam(value = "alterLevel")String alterLevel,
                                        @RequestParam(value = "alterWay")String alterWay,
                                        @RequestParam(value = "chargeMan")String chargeMan,
                                        @RequestParam(value = "frequency")Integer frequency,
                                        @RequestParam(value = "isShow")Integer isShow,
                                        @RequestParam(value = "metricThreshold")Integer metricThreshold){
-        return configService.addSingleMetricConf(metricName,alterLevel,alterWay,chargeMan,frequency,isShow,metricThreshold);
+        try {
+            configService.addSingleMetricConf(metricName,alterLevel,alterWay,chargeMan,frequency,isShow,metricThreshold);
+            return clientUtil.responseMessage(200,"",true);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
     }
 
 
     /** 删除单条metric告警配置 **/
     @RequestMapping(value = "/config/deleteSingleMetricConf",method = RequestMethod.GET)
-    public boolean deleteSingleMetricConf(@RequestParam(value = "id")Integer id){
-        return configService.deleteSingleMetricConf(id);
+    public String deleteSingleMetricConf(@RequestParam(value = "id")Integer id){
+        try {
+            configService.deleteSingleMetricConf(id);
+            return clientUtil.responseMessage(200,"",true);
+        }catch (Exception e){
+            return clientUtil.responseMessage(502,e.getMessage(),null);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.dashu.log.client;
 
 import com.dashu.log.client.dao.FilebeatConfRepository;
 import com.dashu.log.entity.FilebeatConf;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,13 +31,13 @@ public class FilebeatClient {
     @RequestMapping(value = "/filebeat/addFilebeatConf",method = RequestMethod.GET)
     public String addFilebeatConf(@RequestParam(value = "hostname")String hostname){
         if (hostname == null){
-            return clientUtil.nullMessage();
+            return clientUtil.responseMessage(201,"filebeat hostname is null",null);
         }
         try {
             filebeatConfRepository.addHostname(hostname);
-            return clientUtil.successMessage(hostname);
+            return clientUtil.responseMessage(200,"",true);
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(502,e.getMessage(),false);
         }
 
     }
@@ -49,9 +50,9 @@ public class FilebeatClient {
     public String getFilebeatConf(){
         try {
             List<String> filebeatConfList = filebeatConfRepository.getAllHostname();
-            return clientUtil.successMessage(filebeatConfList.toString());
+            return clientUtil.responseMessage(200,"",filebeatConfList);
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(502,e.getMessage(),false);
         }
 
     }}

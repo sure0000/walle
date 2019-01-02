@@ -1,6 +1,7 @@
 package com.dashu.log.client;
 
 import com.dashu.log.client.dao.LogstashConfRepository;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,13 +30,13 @@ public class LogstashClient {
     @RequestMapping(value = "/logstash/addLogstashConf")
     public String addLogstashConf(@RequestParam(value = "hostname")String hostname){
         if (hostname == null){
-            return clientUtil.nullMessage();
+            return clientUtil.responseMessage(201,"hostname is null",null);
         }
         try {
             logstashConfRepository.addHostname(hostname);
-            return clientUtil.successMessage(hostname);
+            return clientUtil.responseMessage(200,"",true);
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(502,e.getMessage(),false);
         }
     }
 
@@ -47,9 +48,9 @@ public class LogstashClient {
     public String getLogstashConf(){
         try {
             List<String> logstashConfList = logstashConfRepository.getAllHostanme();
-            return clientUtil.successMessage(logstashConfList.toString());
+            return clientUtil.responseMessage(200,"",logstashConfList);
         }catch (Exception e){
-            return clientUtil.failMessage(e.toString());
+            return clientUtil.responseMessage(502,e.getMessage(),false);
         }
     }
 }
