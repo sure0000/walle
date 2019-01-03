@@ -21,14 +21,14 @@ public class ClientUtil {
 
     /**
      * 数据返回格式构造
-     * @param ret 返回码
+     * @param statusCode 返回码
      * @param errorMsg 错误信息
      * @param data 真实数据
      * @return
      */
-    public String responseMessage(Integer ret,String errorMsg,Object data){
+    public String responseMessage(Integer statusCode,String errorMsg,Object data){
         JSONObject returnObject = new JSONObject();
-        returnObject.put("ret",ret);
+        returnObject.put("statusCode",statusCode);
         returnObject.put("errorMsg",errorMsg);
         returnObject.put("datas",data);
         return returnObject.toString();
@@ -51,7 +51,7 @@ public class ClientUtil {
 
     /** 写入cookie **/
     public void writeCookie(HttpServletResponse response, String cookieName, String value) throws Exception {
-        value = getMD5Str(value);
+
         Cookie cookie = new Cookie(cookieName,value);
         cookie.setPath("/");
         cookie.setMaxAge(3600);

@@ -24,7 +24,7 @@ public class ESClusterRule {
             logger.info("there is no reject!");
         }else {
             WalleNotify notify = new WalleNotify();
-            notify.sendMessage("es reject",ret,"es reject");
+            notify.sendMessage("ES",ret,"es reject");
             logger.warn(ret);
         }
     }
@@ -37,7 +37,7 @@ public class ESClusterRule {
         boolean ishealth = cluster.isHealth();
         if (!ishealth){
             WalleNotify notify =new WalleNotify();
-            notify.sendMessage("es cluster","es cluster is not health now, please check it!","es cluster");
+            notify.sendMessage("ES","es cluster is not health now, please check it!","cluster health");
             logger.warn("es cluster is not health now, please check it!");
         }else {
             logger.info("es cluster is health!");

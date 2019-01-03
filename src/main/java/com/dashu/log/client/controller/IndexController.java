@@ -5,7 +5,6 @@ import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.dao.ErrorTypeIdRepository;
 import com.dashu.log.client.dao.IndexConfRepository;
 import com.dashu.log.entity.IndexConf;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -45,7 +45,7 @@ public class UserController {
             String sessionKey = clientUtil.getMD5Str(username + String.valueOf(random));
             session.setAttribute(sessionKey,user);
             clientUtil.writeCookie(response,"token",sessionKey);
-            return clientUtil.responseMessage(200,"",user);
+            return clientUtil.responseMessage(200,sessionKey,user);
         }else{
             return clientUtil.responseMessage(201,"user is not exist or password is wrong!",null);
         }
