@@ -3,6 +3,7 @@ package com.dashu.log.client.controller;
 import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.service.UserService;
 import com.dashu.log.entity.User;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,8 +25,9 @@ public class UserController {
 
     /**登出**/
     @RequestMapping(value = "/user/logout",method = RequestMethod.GET)
-    public String logout(@RequestParam(value = "sessionKey")String sessionKey,HttpSession session){
+    public String logout(HttpServletRequest request, HttpSession session){
         try {
+            String sessionKey = clientUtil.getCookie(request,"token");
             session.removeAttribute(sessionKey);
             return clientUtil.responseMessage(200,"",true);
         }catch (Exception e){

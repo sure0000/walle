@@ -1,7 +1,7 @@
 package com.dashu.log.dao;
 
+
 import com.dashu.log.entity.MetricConf;
-import javafx.scene.chart.ValueAxis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +14,7 @@ import java.util.List;
  * @Author: xuyouchang
  * @Date 2018/12/12 下午1:50
  **/
-public interface MetricConfRepository extends JpaRepository <MetricConf,Long>{
+public interface MetricConfRepository extends JpaRepository<MetricConf,Long> {
 
     /** 获取单个配置信息 **/
     @Query(value = "select t.metric_name,t.id,t.alter_level,t.alter_way,t.charge_man,t.frequency,t.is_show,t.metric_threshold from metric_conf as t where alter_name = ?1",nativeQuery = true)
