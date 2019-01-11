@@ -29,7 +29,7 @@ import java.util.Map;
  **/
 public class ErrorLogTypeIndex {
     private static final Logger logger = LoggerFactory.getLogger(ErrorLogTypeIndex.class);
-    private final String INDEX = "error_log_type";
+    private final String INDEX = "error_log_type_2018-12-07";
     private final String FIELD = "Message:";
     private ErrorLogTypeIndex errorLogTypeIndex;
     private String URL = "http://elastic:elastic@es1:9200/"+INDEX+"/_search?q="+FIELD;

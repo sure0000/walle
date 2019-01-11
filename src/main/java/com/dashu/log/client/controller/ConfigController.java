@@ -6,6 +6,7 @@ import com.dashu.log.dao.MessageAlterConfRepository;
 import com.dashu.log.dao.MetricConfRepository;
 import com.dashu.log.entity.MessageAlterConf;
 import com.dashu.log.entity.MetricConf;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,10 +32,21 @@ public class ConfigController {
 
     /** 获取所有message conf **/
     @RequestMapping(value = "/config/getAllMessageConf",method = RequestMethod.GET)
-    public String getAllMessageConf(){
+    public String getAllMessageConf(@RequestParam(value = "page")Integer page){
+        Integer pageSize = 10;
         try {
             List<MessageAlterConf> list = messageAlterConfRepository.getAllConf();
-            return clientUtil.responseMessage(200,"",list);
+            int total = list.size();
+            if (list.size() >= page*pageSize){
+                list = list.subList((page-1)*pageSize,page*pageSize);
+            }else if (list.size() != 0){
+                list = list.subList((page-1)*pageSize,list.size());
+            }
+            JSONObject result = new JSONObject();
+            result.put("total",total);
+            result.put("list",list);
+            result.put("currentPage",page);
+            return clientUtil.responseMessage(200,"",result);
         }catch (Exception e){
             return clientUtil.responseMessage(502,e.getMessage(),null);
         }
@@ -73,10 +85,21 @@ public class ConfigController {
 
     /** 获取所有metric conf **/
     @RequestMapping(value = "/config/getAllMetricConf",method = RequestMethod.GET)
-    public String getAllMetricConf(){
+    public String getAllMetricConf(@RequestParam(value = "page")Integer page){
+        Integer pageSize = 10;
         try {
             List<MetricConf> list = metricConfRepository.getAllMetricConf();
-            return clientUtil.responseMessage(200,"",list);
+            int total = list.size();
+            if (list.size() >= page*pageSize){
+                list = list.subList((page-1)*pageSize,page*pageSize);
+            }else if (list.size() != 0){
+                list = list.subList((page-1)*pageSize,list.size());
+            }
+            JSONObject result = new JSONObject();
+            result.put("total",total);
+            result.put("list",list);
+            result.put("currentPage",page);
+            return clientUtil.responseMessage(200,"",result);
         }catch (Exception e){
             return clientUtil.responseMessage(502,e.getMessage(),null);
         }

@@ -4,6 +4,7 @@ import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.service.UserService;
 import com.dashu.log.entity.User;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,7 +48,11 @@ public class UserController {
             String sessionKey = clientUtil.getMD5Str(username + String.valueOf(random));
             session.setAttribute(sessionKey,user);
             clientUtil.writeCookie(response,"token",sessionKey);
-            return clientUtil.responseMessage(200,sessionKey,user);
+            JSONObject result = new JSONObject();
+            result.put("level",user.getLevel());
+            result.put("userName",user.getUsername());
+            result.put("department",user.getDepartment());
+            return clientUtil.responseMessage(200,"",result);
         }else{
             return clientUtil.responseMessage(201,"user is not exist or password is wrong!",null);
         }

@@ -19,7 +19,7 @@ public class IndexAlter {
      * 告警
      */
     public void alter(){
-//        esIndexRule.isError();
-        esIndexRule.isStopIndex();
+        esIndexRule.isError();
+//        esIndexRule.isStopIndex();
     }
 }

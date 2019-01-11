@@ -46,8 +46,6 @@ public class Cluster {
                 JSONObject statObject = new JSONObject(value);
                 String nodename = statObject.get("name").toString();
                 JSONObject threadPoolObject = new JSONObject(statObject.get("thread_pool").toString());
-//                JSONObject bulkObject = new JSONObject(threadPoolObject.get("bulk").toString());
-//                bulkRejected = Integer.parseInt(bulkObject.get("rejected").toString());
                 JSONObject indexObject = new JSONObject(threadPoolObject.get("index").toString());
                 indexRejected = Integer.parseInt(indexObject.get("rejected").toString());
                 if (indexRejected != 0){

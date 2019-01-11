@@ -5,9 +5,11 @@ import com.dashu.log.client.ClientUtil;
 import com.dashu.log.client.dao.ErrorTypeIdRepository;
 import com.dashu.log.client.dao.IndexConfRepository;
 import com.dashu.log.entity.IndexConf;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -44,10 +46,21 @@ public class IndexController {
 
     /** get All Index Conf **/
     @RequestMapping(value = "/index/getAllIndexConf",method = RequestMethod.GET)
-    public String getAllIndexConf(){
+    public String getAllIndexConf(@RequestParam(value = "page")Integer page){
+        Integer pageSize = 10;
         try {
-            List<IndexConf> indexConfList = indexConfRepository.getAllIndexConf();
-            return clientUtil.responseMessage(200,"",indexConfList);
+            List<IndexConf> list = indexConfRepository.getAllIndexConf();
+            int total = list.size();
+            if (list.size() >= page*pageSize){
+                list = list.subList((page-1)*pageSize,page*pageSize);
+            }else if (list.size() != 0){
+                list = list.subList((page-1)*pageSize,list.size());
+            }
+            JSONObject result = new JSONObject();
+            result.put("total",total);
+            result.put("list",list);
+            result.put("currentPage",page);
+            return clientUtil.responseMessage(200,"",result);
         }catch (Exception e){
             return clientUtil.responseMessage(502,e.getMessage(),null);
         }

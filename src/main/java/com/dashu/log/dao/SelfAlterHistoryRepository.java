@@ -16,13 +16,19 @@ import java.util.List;
  **/
 public interface SelfAlterHistoryRepository extends JpaRepository<SelfAlterHistory,Long> {
 
+
     @Transactional
     @Modifying
     @Query(value = "insert into self_alter_history(alter_name, alter_way, charge_man, is_show, content, alter_time, alter_type) values (?1,?2,?3,?4,?5,?6,?7)",nativeQuery = true)
     void addSingleAlter(String alterName,String alterWay,String chargeMan,Integer isShow,String content,Date alterTime,String alterType);
 
-    @Query(value = "select t.id,t.alter_name,t.alter_type,t.alter_way,t.charge_man,t.content,t.is_show,t.is_handle,t.alter_time from self_alter_history as t where t.is_show = 1 order by t.alter_time desc ,t.is_handle asc ",nativeQuery = true)
-    List<SelfAlterHistory> getAllAlter();
+    /**获取未处理告警**/
+    @Query(value = "select t.id,t.alter_name,t.alter_type,t.alter_way,t.charge_man,t.content,t.is_show,t.is_handle,t.alter_time from self_alter_history as t where t.charge_man = ?1 and t.is_show = 1 and t.is_handle =0 order by t.alter_time desc ",nativeQuery = true)
+    List<SelfAlterHistory> getUnhandledAlter(String chargeMan);
+
+    /**获取已处理告警**/
+    @Query(value = "select t.id,t.alter_name,t.alter_type,t.alter_way,t.charge_man,t.content,t.is_show,t.is_handle,t.alter_time from self_alter_history as t where t.charge_man = ?1 and t.is_show = 1 and t.is_handle =1 order by t.alter_time desc",nativeQuery = true)
+    List<SelfAlterHistory> getHandledAlter(String chargeMan);
 
     @Transactional
     @Modifying

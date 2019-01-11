@@ -2,6 +2,7 @@ package com.dashu.log;
 
 import com.dashu.log.alter.ESClusterAlter;
 import com.dashu.log.alter.IndexAlter;
+import com.dashu.log.alter.NetAlter;
 import com.dashu.log.alter.multiThread.LogstashThread;
 import com.dashu.log.client.dao.LogstashConfRepository;
 import com.dashu.log.entity.FilebeatConf;
@@ -30,45 +31,43 @@ public class Walle {
     @Resource
     private LogstashConfRepository logstashConfRepository;
 
-    /**
-     * logstash
-     */
+    /** logstash **/
     @Scheduled(cron = "0 */5 * * * *")
     public void logstashAlter(){
-//        List<String> hostanmelist = logstashConfRepository.getAllHostanme();
-//        for (String hostname : hostanmelist){
-//            LogstashThread logstashThread = new LogstashThread(hostname);
-//            logstashThread.start();
-//        }
+        List<String> hostanmelist = logstashConfRepository.getAllHostanme();
+        for (String hostname : hostanmelist){
+            LogstashThread logstashThread = new LogstashThread(hostname);
+            logstashThread.start();
+        }
     }
 
-    /**
-     * es index
-     */
-    @Scheduled(cron = "* */10 * * * *")
+    /** es index */
+    @Scheduled(cron = "0 */2 * * * *")
     public void indexAlter(){
-//        indexAlter.alter();
+        indexAlter.alter();
     }
 
-    /**
-     * filebeat
-     */
-    @Scheduled(cron = "* */5 * * * *")
+    /** filebeat */
+    @Scheduled(cron = "0 */5 * * * *")
     public void filebeatAlter(){
-//        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
-//        for (FilebeatConf filebeatConf : filebeatConfList){
-//            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
-//            filebeatThread.start();
-//        }
+        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
+        for (FilebeatConf filebeatConf : filebeatConfList){
+            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
+            filebeatThread.start();
+        }
     }
 
-    /**
-     * es cluster
-     */
+    /** es cluster */
     @Scheduled(cron = "0 */5 * * * *")
     public void esClusterAlter(){
-//        ESClusterAlter esClusterAlter = new ESClusterAlter();
-//        esClusterAlter.alter();
+        ESClusterAlter esClusterAlter = new ESClusterAlter();
+        esClusterAlter.alter();
+    }
+
+    @Scheduled(cron = "0 */10 * * * *")
+    public void netAlter(){
+        NetAlter netAlter = new NetAlter();
+        netAlter.isAlter();
     }
 
 

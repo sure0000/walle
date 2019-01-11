@@ -23,7 +23,7 @@ public interface IndexConfRepository extends JpaRepository<IndexConf,Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update index_conf as t set t.scan_time = ?1 where t.index = ?2",nativeQuery = true)
+    @Query(value = "update index_conf as t set t.scan_time = ?1 where t.index_name = ?2",nativeQuery = true)
     void updateScanTime(String scantime,String index);
 
     /**
@@ -33,7 +33,7 @@ public interface IndexConfRepository extends JpaRepository<IndexConf,Long> {
      */
     @Transactional
     @Modifying
-    @Query(value = "update index_conf as t set t.index_total = ?1 where t.index = ?2",nativeQuery = true)
+    @Query(value = "update index_conf as t set t.index_total = ?1 where t.index_name = ?2",nativeQuery = true)
     void updateIndexTotalNum(String totleNum,String index);
     /**
      * get all index conf
