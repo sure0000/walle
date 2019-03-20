@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @Description 监控、告警任务调度
- * @Author: xuyouchang
+ * @Author xuyouchang
  * @Date 2018/11/23 下午1:22
  **/
 @Component
@@ -34,8 +34,9 @@ public class Walle {
     /** logstash **/
     @Scheduled(cron = "0 */5 * * * *")
     public void logstashAlter(){
-        List<String> hostanmelist = logstashConfRepository.getAllHostanme();
-        for (String hostname : hostanmelist){
+        logger.info("start logstash detection");
+        List<String> listLogstah = logstashConfRepository.getAllHostanme();
+        for (String hostname : listLogstah){
             LogstashThread logstashThread = new LogstashThread(hostname);
             logstashThread.start();
         }
@@ -58,9 +59,10 @@ public class Walle {
     }
 
     /** es cluster */
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void esClusterAlter(){
-        ESClusterAlter esClusterAlter = new ESClusterAlter();
+        String baseUrl = "http://elastic:elastic@es1:9200/";
+        ESClusterAlter esClusterAlter = new ESClusterAlter(baseUrl);
         esClusterAlter.alter();
     }
 

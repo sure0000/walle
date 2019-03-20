@@ -1,7 +1,7 @@
 package com.dashu.log.alterRules;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.dashu.log.monitor.cluster.Cluster;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,25 +9,21 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @Description
  * @Author: xuyouchang
- * @Date 2018/11/27 下午2:42
+ * @Date 2019/3/20 下午5:25
  **/
 class ESClusterRuleTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
-    void isReject() {
+    void checkCluster() {
+        Cluster cluster = new Cluster("http://elastic:elastic@idces1:9200/");
+        JSONObject clusterObject = cluster.getClusterInfo();
+        JSONObject nodesObject = cluster.getClusterNodes(clusterObject);
+
         ESClusterRule esClusterRule = new ESClusterRule();
-        esClusterRule.isReject();
+        JSONObject heapObject = esClusterRule.checkJvmHeap(nodesObject,90);
+        JSONObject memObject = esClusterRule.checkOsMem(nodesObject,90);
+        boolean flag = esClusterRule.isClusterHealth(clusterObject.getString("status"));
+
     }
 
-    @Test
-    void isHealthRule() {
-    }
 }

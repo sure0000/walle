@@ -50,8 +50,7 @@ public class ClientUtil {
     }
 
     /** 写入cookie **/
-    public void writeCookie(HttpServletResponse response, String cookieName, String value) throws Exception {
-
+    public void writeCookie(HttpServletResponse response, String cookieName, String value)  {
         Cookie cookie = new Cookie(cookieName,value);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
