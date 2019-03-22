@@ -49,7 +49,7 @@ public class Index {
     /** 获取 Index 状态相关信息 **/
     public JSONObject getIndexInfo(String index) {
         HttpUtil httpUtil = new HttpUtil(Index.class);
-        String url = this.BASE_URL + index + "/"+INDEX_STATS;
+        String url = this.BASE_URL + index + "/"+ INDEX_STATS;
         try {
             String response = httpUtil.get(url);
             return new JSONObject(response);

@@ -64,7 +64,7 @@ public class Node {
     /** 获取节点状态信息 */
     public List<JSONObject> getNodesInfo() {
         HttpUtil httpUtil = new HttpUtil(Cluster.class);
-        String url = this.BASE_URL+NODES_STATS;
+        String url = this.BASE_URL + NODES_STATS;
         List<JSONObject> listNodeInfo = new ArrayList<>();
         try {
             String result = httpUtil.get(url);

@@ -1,7 +1,5 @@
-package com.dashu.log.alterRules;
+package com.dashu.log.alertRules;
 
-import com.dashu.log.alter.WalleNotify;
-import com.dashu.log.monitor.cluster.Cluster;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +11,34 @@ import org.slf4j.LoggerFactory;
  **/
 public class ESClusterRule {
     private static final Logger logger = LoggerFactory.getLogger(ESIndexRule.class);
-    private static final String ALTER_NAME = "ES";
-    private static final String SERVICE_NAME = "cluster";
-//    private String BASE_URL;
-//
-//    public ESClusterRule(String baseUrl){
-//        this.BASE_URL = baseUrl;
-//    }
+
+    /**
+     * 检查集群 fs 使用率
+     * @param clusterNodesObject
+     * @param threshold fs 使用阈值
+     * @return
+     */
+   public JSONObject checkFs(JSONObject clusterNodesObject, Integer threshold) {
+       if (threshold == null) {
+           threshold = 80;
+       }
+
+       Long totalBytes = clusterNodesObject.getJSONObject("fs").getLong("total_in_bytes");
+       Long availableBytes = clusterNodesObject.getJSONObject("fs").getLong("19667350257664");
+       Long usedBytes = totalBytes - availableBytes;
+       Long fsUsedPercent = (usedBytes * 100)/totalBytes;
+       int isAlert = 0;
+
+       if (fsUsedPercent >= threshold) {
+           isAlert =1;
+       }
+
+       JSONObject checkResult = new JSONObject();
+       checkResult.put("isAlert", isAlert);
+       checkResult.put("fsUsedPercent", fsUsedPercent);
+       checkResult.put("desc", "fs 使用率");
+       return checkResult;
+   }
 
     /**
      * 检查集群系统JVM heap
@@ -34,7 +53,7 @@ public class ESClusterRule {
 
         Long heapUsed = clusterNodesObject.getJSONObject("jvm").getJSONObject("mem").getLong("heap_used_in_bytes");
         Long heapMax = clusterNodesObject.getJSONObject("jvm").getJSONObject("mem").getLong("heap_max_in_bytes");
-        Long heapUsedPercent = (heapUsed*100/heapMax);
+        Long heapUsedPercent = (heapUsed * 100/heapMax);
         int isAlert = 0;
 
         if (heapUsedPercent >= threshold){

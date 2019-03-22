@@ -1,10 +1,8 @@
-package com.dashu.log.alterRules;
+package com.dashu.log.alertRules;
 
 import com.dashu.log.monitor.cluster.Cluster;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Description

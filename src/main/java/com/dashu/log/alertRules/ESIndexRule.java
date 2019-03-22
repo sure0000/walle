@@ -1,7 +1,7 @@
-package com.dashu.log.alterRules;
+package com.dashu.log.alertRules;
 
-import com.dashu.log.alterRules.multiThread.IsErrorMultiThread;
-import com.dashu.log.alterRules.multiThread.IsStopIndexMultiThread;
+import com.dashu.log.alertRules.multiThread.IsErrorMultiThread;
+import com.dashu.log.alertRules.multiThread.IsStopIndexMultiThread;
 import com.dashu.log.dao.ErrorLogTypeRepository;
 import com.dashu.log.client.dao.IndexConfRepository;
 import com.dashu.log.entity.IndexConf;

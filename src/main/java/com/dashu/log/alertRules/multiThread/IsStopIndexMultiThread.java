@@ -1,4 +1,4 @@
-package com.dashu.log.alterRules.multiThread;
+package com.dashu.log.alertRules.multiThread;
 
 import com.dashu.log.alter.WalleNotify;
 import com.dashu.log.client.dao.IndexConfRepository;

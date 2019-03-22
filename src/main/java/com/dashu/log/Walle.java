@@ -1,8 +1,9 @@
 package com.dashu.log;
 
-import com.dashu.log.alter.ESClusterAlter;
-import com.dashu.log.alter.IndexAlter;
+import com.dashu.log.alter.ESClusterAlert;
+import com.dashu.log.alter.IndexAlert;
 import com.dashu.log.alter.NetAlter;
+import com.dashu.log.alter.NodeAlert;
 import com.dashu.log.alter.multiThread.LogstashThread;
 import com.dashu.log.client.dao.LogstashConfRepository;
 import com.dashu.log.entity.FilebeatConf;
@@ -11,6 +12,8 @@ import com.dashu.log.alter.multiThread.FilebeatThread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
@@ -24,52 +27,77 @@ import java.util.List;
 @Component
 public class Walle {
     private static final Logger logger = LoggerFactory.getLogger(Walle.class);
-    @Resource
-    private IndexAlter indexAlter;
-    @Resource
-    private FileBeatConfRepository fileBeatConfRepository;
-    @Resource
-    private LogstashConfRepository logstashConfRepository;
+    @Autowired
+    private Environment env;
 
-    /** logstash **/
-    @Scheduled(cron = "0 */5 * * * *")
-    public void logstashAlter(){
-        logger.info("start logstash detection");
-        List<String> listLogstah = logstashConfRepository.getAllHostanme();
-        for (String hostname : listLogstah){
-            LogstashThread logstashThread = new LogstashThread(hostname);
-            logstashThread.start();
-        }
+
+//    /** logstash **/
+//    @Scheduled(cron = "0 */5 * * * *")
+//    public void logstashAlter(){
+//        logger.info("start logstash detection");
+//        List<String> listLogstah = logstashConfRepository.getAllHostanme();
+//        for (String hostname : listLogstah){
+//            LogstashThread logstashThread = new LogstashThread(hostname);
+//            logstashThread.start();
+//        }
+//    }
+
+    @Scheduled(cron = "* */5 * * * *")
+    public void nodeAlert() {
+        String baseUrl = getBaseUrl(env);
+        int osMemThreshold = Integer.parseInt(env.getProperty("es.node.osMem.threshold"));
+        int jvmThreshold = Integer.parseInt(env.getProperty("es.node.jvmHeap.threshold"));
+        int fsThreshold = Integer.parseInt(env.getProperty("es.node.fs.threshold"));
+        NodeAlert nodeAlert = new NodeAlert(baseUrl,osMemThreshold,jvmThreshold,fsThreshold);
+        nodeAlert.alert();
     }
 
     /** es index */
-    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void indexAlter(){
-        indexAlter.alter();
+       String baseUrl = getBaseUrl(env);
+       IndexAlert indexAlert = new IndexAlert(baseUrl);
+       indexAlert.alert();
     }
 
-    /** filebeat */
-    @Scheduled(cron = "0 */5 * * * *")
-    public void filebeatAlter(){
-        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
-        for (FilebeatConf filebeatConf : filebeatConfList){
-            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
-            filebeatThread.start();
-        }
-    }
 
     /** es cluster */
     @Scheduled(cron = "* */5 * * * *")
     public void esClusterAlter(){
-        String baseUrl = "http://elastic:elastic@es1:9200/";
-        ESClusterAlter esClusterAlter = new ESClusterAlter(baseUrl);
-        esClusterAlter.alter();
+        String baseUrl = getBaseUrl(env);
+        int osMemThreshold = Integer.parseInt(env.getProperty("es.cluster.osMem.threshold"));
+        int jvmThreshold = Integer.parseInt(env.getProperty("es.cluster.jvmHeap.threshold"));
+        int fsThreshold = Integer.parseInt(env.getProperty("es.cluster.fs.threshold"));
+        ESClusterAlert esClusterAlert = new ESClusterAlert(baseUrl,osMemThreshold,jvmThreshold,fsThreshold);
+        esClusterAlert.alert();
     }
 
-    @Scheduled(cron = "0 */10 * * * *")
-    public void netAlter(){
-        NetAlter netAlter = new NetAlter();
-        netAlter.isAlter();
+    //    /** filebeat */
+//    @Scheduled(cron = "0 */5 * * * *")
+//    public void filebeatAlter(){
+//        List<FilebeatConf> filebeatConfList = fileBeatConfRepository.getAllHostname();
+//        for (FilebeatConf filebeatConf : filebeatConfList){
+//            FilebeatThread filebeatThread = new FilebeatThread(filebeatConf.getHostname());
+//            filebeatThread.start();
+//        }
+//    }
+
+//    @Scheduled(cron = "0 */10 * * * *")
+//    public void netAlter(){
+//        NetAlter netAlter = new NetAlter();
+//        netAlter.isAlter();
+//    }
+
+    /** 构造es基础请求URL **/
+    public String getBaseUrl(Environment env) {
+        String host = env.getProperty("es.host");
+        String port = env.getProperty("es.port");
+        String username = env.getProperty("es.username");
+        String password = env.getProperty("es.password");
+
+        String baseUrl = "http://" + username + ":" + password +
+                "@" + host + ":" + port + "/";
+        return baseUrl;
     }
 
 

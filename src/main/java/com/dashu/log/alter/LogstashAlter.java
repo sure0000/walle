@@ -1,6 +1,6 @@
 package com.dashu.log.alter;
 
-import com.dashu.log.alterRules.LogstashRule;
+import com.dashu.log.alertRules.LogstashRule;
 
 /**
  * @Description logstash告警

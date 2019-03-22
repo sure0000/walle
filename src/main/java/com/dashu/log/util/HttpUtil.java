@@ -70,7 +70,7 @@ public class HttpUtil {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     entity.getContent(), "UTF-8"));
             while ((line = br.readLine()) != null) {
-                result += line;
+                result = result + line + "\n";
             }
             ((CloseableHttpClient) client).close();
         return result;

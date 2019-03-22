@@ -1,6 +1,6 @@
 package com.dashu.log.alter;
 
-import com.dashu.log.alterRules.NetAlterRule;
+import com.dashu.log.alertRules.NetAlterRule;
 
 /**
  * @Description

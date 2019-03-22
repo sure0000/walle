@@ -1,6 +1,6 @@
 package com.dashu.log.alter;
 
-import com.dashu.log.alterRules.MessageRule;
+import com.dashu.log.alertRules.MessageRule;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,7 +1,7 @@
-package com.dashu.log.alterRules.multiThread;
+package com.dashu.log.alertRules.multiThread;
 
 import com.dashu.log.alter.WalleNotify;
-import com.dashu.log.alterRules.ESIndexRule;
+import com.dashu.log.alertRules.ESIndexRule;
 import com.dashu.log.dao.ErrorLogTypeIndex;
 import com.dashu.log.dao.ErrorLogTypeRepository;
 import com.dashu.log.entity.ErrorLogType;

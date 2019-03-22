@@ -1,6 +1,6 @@
 package com.dashu.log.alter;
 
-import com.dashu.log.alterRules.FilebeatRule;
+import com.dashu.log.alertRules.FilebeatRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

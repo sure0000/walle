@@ -1,4 +1,4 @@
-package com.dashu.log.alterRules;
+package com.dashu.log.alertRules;
 
 import com.dashu.log.alter.WalleNotify;
 import com.dashu.log.dao.MetricConfRepository;
