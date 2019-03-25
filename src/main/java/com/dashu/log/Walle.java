@@ -31,18 +31,7 @@ public class Walle {
     private Environment env;
 
 
-//    /** logstash **/
-//    @Scheduled(cron = "0 */5 * * * *")
-//    public void logstashAlter(){
-//        logger.info("start logstash detection");
-//        List<String> listLogstah = logstashConfRepository.getAllHostanme();
-//        for (String hostname : listLogstah){
-//            LogstashThread logstashThread = new LogstashThread(hostname);
-//            logstashThread.start();
-//        }
-//    }
-
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "* * * * * *")
     public void nodeAlert() {
         String baseUrl = getBaseUrl(env);
         int osMemThreshold = Integer.parseInt(env.getProperty("es.node.osMem.threshold"));
@@ -52,17 +41,17 @@ public class Walle {
         nodeAlert.alert();
     }
 
-    /** es index */
-    @Scheduled(cron = "* */5 * * * *")
-    public void indexAlter(){
-       String baseUrl = getBaseUrl(env);
-       IndexAlert indexAlert = new IndexAlert(baseUrl);
-       indexAlert.alert();
-    }
+//    /** es index */
+//    @Scheduled(cron = "* * * * * *")
+//    public void indexAlter(){
+//       String baseUrl = getBaseUrl(env);
+//       IndexAlert indexAlert = new IndexAlert(baseUrl);
+//       indexAlert.alert();
+//    }
 
 
     /** es cluster */
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "* * * * * *")
     public void esClusterAlter(){
         String baseUrl = getBaseUrl(env);
         int osMemThreshold = Integer.parseInt(env.getProperty("es.cluster.osMem.threshold"));
@@ -71,6 +60,21 @@ public class Walle {
         ESClusterAlert esClusterAlert = new ESClusterAlert(baseUrl,osMemThreshold,jvmThreshold,fsThreshold);
         esClusterAlert.alert();
     }
+
+
+
+    /** 构造es基础请求URL **/
+    public String getBaseUrl(Environment env) {
+        String host = env.getProperty("es.host");
+        String port = env.getProperty("es.port");
+        String username = env.getProperty("es.username");
+        String password = env.getProperty("es.password");
+
+        String baseUrl = "http://" + username + ":" + password +
+                "@" + host + ":" + port + "/";
+        return baseUrl;
+    }
+
 
     //    /** filebeat */
 //    @Scheduled(cron = "0 */5 * * * *")
@@ -88,17 +92,16 @@ public class Walle {
 //        netAlter.isAlter();
 //    }
 
-    /** 构造es基础请求URL **/
-    public String getBaseUrl(Environment env) {
-        String host = env.getProperty("es.host");
-        String port = env.getProperty("es.port");
-        String username = env.getProperty("es.username");
-        String password = env.getProperty("es.password");
-
-        String baseUrl = "http://" + username + ":" + password +
-                "@" + host + ":" + port + "/";
-        return baseUrl;
-    }
+    //    /** logstash **/
+//    @Scheduled(cron = "0 */5 * * * *")
+//    public void logstashAlter(){
+//        logger.info("start logstash detection");
+//        List<String> listLogstah = logstashConfRepository.getAllHostanme();
+//        for (String hostname : listLogstah){
+//            LogstashThread logstashThread = new LogstashThread(hostname);
+//            logstashThread.start();
+//        }
+//    }
 
 
 

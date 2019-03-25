@@ -24,7 +24,7 @@ public class ESClusterRule {
        }
 
        Long totalBytes = clusterNodesObject.getJSONObject("fs").getLong("total_in_bytes");
-       Long availableBytes = clusterNodesObject.getJSONObject("fs").getLong("19667350257664");
+       Long availableBytes = clusterNodesObject.getJSONObject("fs").getLong("available_in_bytes");
        Long usedBytes = totalBytes - availableBytes;
        Long fsUsedPercent = (usedBytes * 100)/totalBytes;
        int isAlert = 0;
@@ -78,7 +78,11 @@ public class ESClusterRule {
             threshold = 80;
         }
 
-        int memUsedPercent = clusterNodesObject.getJSONObject("os").getJSONObject("mem").getInt("used_percent");
+        Long memUsed = clusterNodesObject.getJSONObject("os").getJSONObject("mem").getLong("used_in_bytes");
+        Long memTotal = clusterNodesObject.getJSONObject("os").getJSONObject("mem").getLong("total_in_bytes");
+        Long jvmHeapUsed = clusterNodesObject.getJSONObject("jvm").getJSONObject("mem").getLong("heap_used_in_bytes");
+
+        Long memUsedPercent = (memUsed - jvmHeapUsed)*100/memTotal;
         int isAlert = 0;
 
         if (memUsedPercent >= threshold) {

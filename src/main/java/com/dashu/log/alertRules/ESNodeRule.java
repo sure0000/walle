@@ -89,7 +89,13 @@ public class ESNodeRule {
     public JSONObject checkOsMem(int threshold) {
         Node node = new Node(this.BASE_URL);
         JSONObject oSObject = node.getNodeOs(this.nodeInfoObject);
-        Long osMemUsedPercent = oSObject.getJSONObject("mem").getLong("used_percent");
+        Long osMemUsed = oSObject.getJSONObject("mem").getLong("used_in_bytes");
+        Long osMemTotal = oSObject.getJSONObject("mem").getLong("total_in_bytes");
+
+        JSONObject jvmObject = node.getNodeJvm(this.nodeInfoObject);
+        Long jvmHeapUsed = jvmObject.getJSONObject("mem").getLong("heap_used_in_bytes");
+
+        Long osMemUsedPercent = (osMemUsed - jvmHeapUsed)*100/osMemTotal;
         int isAlert = 0;
 
         if (osMemUsedPercent > threshold) {

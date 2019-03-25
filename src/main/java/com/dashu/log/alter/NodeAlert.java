@@ -58,9 +58,10 @@ public class NodeAlert {
                 nodeAlertMap.put("osMemInfo", osMemInfo);
             }
         }
-
-        String alertInfo = "node check info is:\n" + nodeAlertMap.toString();
-        WalleNotify notify = new WalleNotify();
-        notify.sendMessage(ALTER_NAME, alertInfo, "node check");
+        if (nodeAlertMap.size() >0) {
+            String alertInfo = "node check info is:\n" + nodeAlertMap.toString();
+            WalleNotify notify = new WalleNotify();
+            notify.sendMessage(ALTER_NAME, alertInfo, "node check");
+        }
     }
 }

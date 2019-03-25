@@ -48,7 +48,7 @@ public class ESClusterAlert {
             String healthInfo = "es cluster is not health!";
             clusterAlertMap.put("healthInfo",healthInfo);
         }
-        // TODO: 2019/3/21 过滤cache/buff
+
         if (checkOsMem.getInt("isAlert") == 1) {
             String osMemInfo = "os mem used " + checkOsMem.getInt("memUsedPercent") + "%";
             clusterAlertMap.put("osMemInfo", osMemInfo);
@@ -64,8 +64,11 @@ public class ESClusterAlert {
             clusterAlertMap.put("fsInfo", fsInfo);
         }
 
-        String alertInfo = "the cluster check info is:\n" + clusterAlertMap.toString();
-        WalleNotify notify = new WalleNotify();
-        notify.sendMessage(ALTER_NAME, alertInfo, "cluster check");
+        if (clusterAlertMap.size() > 0) {
+            String alertInfo = "the cluster check info is:\n" + clusterAlertMap.toString();
+            WalleNotify notify = new WalleNotify();
+            notify.sendMessage(ALTER_NAME, alertInfo, "cluster check");
+        }
+
     }
 }
